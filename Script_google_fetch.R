@@ -33,9 +33,6 @@ ocean + geom_bar()
 ### Quick map!
 summary(CHONedatacsv)
 
-library(googleVis)
-## Hurricane Andrew (1992) storm track with Google Maps
-AndrewMap <- gvisMap(Andrew, "LatLong", "Tip", options = list(showTip = TRUE, 
-            showLine = TRUE, enableScrollWheel = TRUE, mapType = "hybrid", useMapTypeControl = TRUE))
+library(ggmap)
+qmap("world", location = c(lon = -61, lat = 45), zoom = 6, source="stamen", maptype="watercolor")
 
-print(AndrewMap, "chart")

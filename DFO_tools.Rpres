@@ -129,7 +129,7 @@ Pull out Rénald Belley, PhD student (Snelgrove lab)
 ```{r}
 df[5,]
 ```
-- We get Rénald's actual remarks, pretty cool!
+- We get Rénald's actual remarks to us, pretty cool!
 
 Pull out Kira Krumhansl, PhD graduate (Scheibling lab)
 =========================================================
@@ -140,28 +140,58 @@ krumhansl.species
 ```
 Plots! In which ocean(s) did most studies occur?
 ========================================================
-```{r, fig.wideth=10, fig.height=5}
+- Not easy to discern but it does match the [google analytics barchart](https://docs.google.com/forms/d/1ww045eN0tqW6dUibyGAcZ2ubAKWyV-gXserLhaiZBgk/viewanalytics), Atlantic has the most studies
+- R combines factors ocean combinations by researcher
+```{r, fig.wideth=10, fig.height=5, echo=FALSE}
 library(ggplot2)
 ocean <- ggplot(CHONedatacsv, aes(factor(Ocean)))
 ocean + geom_bar()
 
 ```
-- Not easy to discern but it does match the [google analytics barchart](https://docs.google.com/forms/d/1ww045eN0tqW6dUibyGAcZ2ubAKWyV-gXserLhaiZBgk/viewanalytics), Atlantic has the most studies
-- R combines factors though, so more ocean combinations by researcher
 
-An attempt at mapping without any metadata cleaning 
+
+Make a dataframe for mapping without any metadata cleaning 
 =========================================================================
 - Lats and longs mixed up
 - Decimal degrees not used, or funny characters inserted
+```{r}
+MinLat <- CHONedatacsv$MinLat
+MinLong <- CHONedatacsv$MinLong
+
+gps.df <- data.frame(MinLat, MinLong)
+
+head(gps.df)
+
+```
+
+
+Mapping a subset of "clean" metadata with leaflet
+============================================================
+```{r fig.width = 5}
+require(devtools)
+library(rCharts)
+library(rMaps)
+library(leafletR)
+
+```
+Load packages, leaflet R is a javascript mapping applet (go to script)
+
+VERSION CONTROL
+=======================================
+type:section
+
+Using git & github (not necessarily social coding)
+
+![alt text](github.png)
 
 Formal version control - a life saver (in fact, I'm using it now as I write this presentation!)
 ========================================
 * __FACT__:Playing around with a large body of other peoples' metadata or data is __SCARY__
-  * What if I sort columns the wrong way, and forget?
+  <small>* What if I sort columns the wrong way, and forget?
   * What if I write an indexing script that completely screws everything up?
   * What if I want to invite collaborators to look at the data, and they screw something up, because I forget to enable proper permissions?
   * What if I can't remember that neat script I wrote last week to make a neat map?
-  * What if in data cleaning, I make a mistake in interpreting a lat or long coordinate as erroneous, when in fact, it isn't an error?
+  * What if in data cleaning, I make a mistake in interpreting a lat or long coordinate as erroneous, when in fact, it isn't an error?</small>
 
 Formal version control
 ========================================
@@ -176,7 +206,7 @@ Git workflow (using reporitory where this presentation is stored)
 2. __Initialize__ it (git-init in shell, if working locally)
 3. Do some work, save it, then __COMMIT__ to the changes made
 4. __PUSH__ (send) changes to github (if wanting to store versions online)
-5. Collaborators can __PULL__ (download) repositories or __FORK__ (make new versions) of their own, and all the while - all versions are stored.
+5. Collaborators can __PULL__ (download) repositories containing new or old versions or __FORK__ (make new versions) of their own, and all the while - all versions are stored.
 6. __REVERT__ back to another version if one is not suitable.
 
 __OK KATE! MAKE SOME CHANGES BY DELETING THIS BOTTOM PART OF THE SLIDE IT'S A BIT INANE__
@@ -188,6 +218,9 @@ Help for getting started with Git and Github in Rstudio
 * Git and Github in Rstudio
   * Great explanation from [Molecular Ecologist] (http://www.molecularecologist.com/2013/11/using-github-with-r-and-rstudio/) blog
 
+* Overall, I just think Git & Github are great tools for workflow
+  * Does not hurt that I get five private repos __FREE__ (student)
+
 What to do about CHONe DATAsets?
 =====================================================
 type:section
@@ -198,9 +231,78 @@ type:section
 Challenge: publish data to fulfill open data mandate
 =====================================================
 
-Solution: data archival with outside repositories issuing DOIs
+* Q: CHONe's data is diverse - where do you warehouse it?
+
+* A: __Public archives with their own infrastructure__
+***
+![alt text](DryadLogo.png)
+![alt text](FigShare.png)
+
+
+Data archival with outside repositories issuing DOIs
 ======================================================
+[CHONe Dryad examples] (http://datadryad.org/discover?query=Canadian+Healthy+Oceans&submit=Go)
 
-Pros & Cons of solution
+[CHONe Figshare example - due to external agreement with PLoS] (http://figshare.com/articles/_Are_Hotspots_Always_Hotspots_The_Relationship_between_Diversity_Resource_and_Ecosystem_Functions_in_the_Arctic_/796278)
+
+PROS & Cons of Public Data Archival
 =====================================================
+* All datasets issued a permanent DOI
+* Curation even when the network has ended
+* Minimizes data loss
+* Filetypes updated regularly as computing technology advances
+* Very cheap (free for FigShare), $70 a package for Data Dryad
+* Credit for all your research! Citation of both data package/ data set and publication
+* A tendency to reach a wider audience with data that is public, and papers that are open access (we can actually measure this)
 
+Measuring the impacts of CHONe publications (articles & reviews)
+=========================================================================
+Using Altmetrics, we can get some idea of the impact of articles
+```{r, echo=FALSE}
+library(rAltmetric)
+archam<-altmetrics(doi='10.1371/journal.pone.0012182')
+
+plot(archam)
+```
+
+
+Measuring the impacts of CHONe open access paper
+=========================================================================
+```{r, echo=FALSE}
+lacharite<-altmetrics(doi='10.1371/journal.pone.0065394')
+plot(lacharite)
+```
+Measuring the impacts of CHONe open data packages
+=========================================================================
+```{r, echo=FALSE}
+lacharite1<-altmetrics(doi='10.5061/dryad.30kt0')
+
+plot(lacharite1)
+```
+
+PROS & Cons of Public Data Archival
+=====================================================
+* Dryad and Figshare both have APIs (application programming interfaces)
+* Metadata and data can be easily accessed, for further analyses
+* No formal structure on the data (like MS-access), the user decides the structure and the question
+* Example script 'rdryad'
+
+Pros & CONS of Public Data Archival
+=====================================================
+* Many researchers reluctant to upload data even after publication
+  * Long term datasets (can be embargoed, but only for a year-long period in some repos)
+  * May write many publications, with one long-term dataset
+
+Pros & CONS of Public Data Archival
+============================================================
+* Who owns the raw data vs. processed data?
+  * CHONe PIs and scientists have many collaborators - open data is not always possible or allowed to be made public (e.g. certain multi-beam surveys) for collaborators.
+  * The more money data costs, the more likely other collaborators involved who want to use the data before its made public
+  * Grants depend on keeping data private
+
+THE END!
+===========================
+type:section
+Questions? Comments?
+
+Acknowledgments: All CHONe researchers, CHONe staff, DFO, NSERC, Province of Newfoundland & Labrador

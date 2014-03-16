@@ -1,0 +1,92 @@
+<!doctype HTML>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    <link rel='stylesheet' href='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css'>
+    
+    <script src='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js' type='text/javascript'></script>
+    <script src='https://rawgithub.com/leaflet-extras/leaflet-providers/gh-pages/leaflet-providers.js' type='text/javascript'></script>
+    <script src='http://harrywood.co.uk/maps/examples/leaflet/leaflet-plugins/layer/vector/KML.js' type='text/javascript'></script>
+    
+    <style>
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: 800px;
+      height: 400px;
+    }  
+    </style>
+    
+  </head>
+  <body>
+    <div id='chartf0cb7b5b45d2' class='rChart leaflet'></div>  
+    
+    <script>
+  var spec = {
+ "dom": "chartf0cb7b5b45d2",
+"width":            800,
+"height":            400,
+"urlTemplate": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+"layerOpts": {
+ "attribution": "Map data<a href=\"http://openstreetmap.org\">OpenStreetMap</a>\n         contributors, Imagery<a href=\"http://mapbox.com\">MapBox</a>" 
+},
+"center": [         45.783,       -61.7777 ],
+"zoom":              3,
+"provider": "Stamen.Watercolor",
+"id": "chartf0cb7b5b45d2" 
+}
+
+  var map = L.map(spec.dom, spec.mapOpts)
+  
+    map.setView(spec.center, spec.zoom);
+
+    if (spec.provider){
+      L.tileLayer.provider(spec.provider).addTo(map)    
+    } else {
+		  L.tileLayer(spec.urlTemplate, spec.layerOpts).addTo(map)
+    }
+     
+    L
+  .marker([
+ 44.477,
+-64.031 
+])
+  .addTo( map )
+  .bindPopup("Investigator = Kira Krumhansl, Species number = 22, Species =  Agarum cribosum, Alaria esculenta, Bonnemasonia hamifera, Codium fragile, Desmarestia aculeata, Desmarestia virdis, Ecklonia cava, Ecklonia maxima, Ecklonia radiata, Lacuna vincta, Laminaria complanata, Laminaria digitata, Laminaria solidungula, Lessonia nigrescens, Lessonia trabeculata, Macrocystis integrifolia, Macrocystis pyrifera, Membranipora membranacea, Palmaria palmata, Saccharina latissima, Strongylocentrotus droebachiensis, Undaria pinnatifida")
+L
+  .marker([
+  41.15,
+-64.75 
+])
+  .addTo( map )
+  .bindPopup("Investigator = Myriam Lacharite, Species number = 2, Species = Primnoa resedaeformis, Paragorgia arborea")
+L
+  .marker([
+ 45.783,
+-61.778 
+])
+  .addTo( map )
+  .bindPopup("Investigator = Michelle Lloyd, Species number = 16, Species = Margarites spp., Crepidula spp., Astyris lunata, Diaphana minuta, Littorini morpha, Arrhoges occidentalis, Ilyanassa spp., Bittiolum alternatum, Nudibranchia, Gastropoda, Bivalvia, Bryozoa, Brachyura, Polychaeta, Caridea, Asteroidea")
+    
+    
+    
+    
+    if (spec.circle2){
+      for (var c in spec.circle2){
+        var circle = L.circle(c.center, c.radius, c.opts)
+         .addTo(map);
+      }
+    }
+    
+    
+    
+    
+    
+   
+   
+   
+</script>
+    
+  </body>
+</html>
