@@ -63,22 +63,59 @@ Challenge: How to get at all this data in a meaningful way?
   * With Google forms, you can enable basic permissions to the __"right"__ user levels
 
 * __Google__ __form__ __used:__
-  * [CHONe metadata collection] (https://docs.google.com/forms/d/1zkTYqeax_w1d-VnE6oojfA2w4ed6x4APtwFfb9wonhI/edit)
+  * [CHONe metadata collection] (https://docs.google.com/forms/d/1zkTYqeax_w1d-VnE6oojfA2w4ed6x4APtwFfb9wonhI/viewform)
 
-Results of survey form <small>(with dutiful pestering from Michelle Lloyd and Joan Atkinson)</small>
+METADATA MANIPULATION
 ======================================================
-*
+type:section
+* View quick analytics in google 
+* Import to R (RStudio - Nice IDE)
+* Implement version control to easily track changes and versions
+  * Git (local), and github (online repository)
 
-Slide With Code
+Results of survey form 
+======================================================
+* Results from the form are stored as a spreadsheet
+  * [Familiar file type] (https://docs.google.com/spreadsheet/ccc?key=0AmsZcgcljAoodGhHaExkZlU1dHhtUkpnb0UtOEJ4THc&usp=drive_web#gid=0)
+  * [Summary display] (https://docs.google.com/forms/d/1ww045eN0tqW6dUibyGAcZ2ubAKWyV-gXserLhaiZBgk/viewanalytics)
+* Easy to import the data into R, for manipulation
+
+```{r}
+library(mosaic)
+
+CHONedataweb<- fetchGoogle("https://docs.google.com/spreadsheet/ccc?key=0AmsZcgcljAoodGhHaExkZlU1dHhtUkpnb0UtOEJ4THc&usp=drive_web#gid=0")
+
+CHONedatacsv <- fetchGoogle("https://docs.google.com/spreadsheet/pub?key=0AmsZcgcljAoodGhHaExkZlU1dHhtUkpnb0UtOEJ4THc&single=true&gid=0&output=csv")
+
+
+```
+
+Output of XML and CSV, respectively
+========================================================
+
+```{r,echo=FALSE}
+str(CHONedataweb)
+
+head(CHONedatacsv)
+
+```
+
+Moving forward with the csv look at Species/Taxa lists
 ========================================================
 
 ```{r}
-summary(cars)
+species <- CHONedatacsv$SpeciesTaxa
+
+## \n simply indicates separation between taxa
+head(species)
 ```
 
-Slide With Plot
+Isolating a particular researcher
 ========================================================
 
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+lastName <- CHONedatacsv$LastName
+
+## \n simply indicates separation between taxa
+head(lastName)
 ```
