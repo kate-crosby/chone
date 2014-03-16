@@ -8,6 +8,7 @@ date: March  18, 2014
 
 Talk Outline
 ========================================================
+left:40%
 ![alt text](image.jpeg)
 ***
 - Brief background of CHONe (size, scope, types of data, problems)
@@ -57,6 +58,7 @@ type:section
 
 Challenge: How to get at all this data in a meaningful way?
 =======================================================
+incremental:true
 * __Metadata collection w/ Survey forms__
   * E.g. google (free), survey monkey (free), or custom one with more padded security features
   * Design is user-friendly, but back-end can be scraped automatically with R
@@ -110,12 +112,89 @@ species <- CHONedatacsv$SpeciesTaxa
 head(species)
 ```
 
-Isolating a particular researcher
+Isolating a particular researcher and species
 ========================================================
 
 ```{r}
 lastName <- CHONedatacsv$LastName
+firstName <- CHONedatacsv$FirstName
+df <- data.frame(firstName, lastName, species)
 
-## \n simply indicates separation between taxa
-head(lastName)
+head(df)
 ```
+
+
+Pull out Rénald Belley, PhD student (Snelgrove lab)
+=========================================================
+```{r}
+df[5,]
+```
+- We get Rénald's actual remarks, pretty cool!
+
+Pull out Kira Krumhansl, PhD graduate (Scheibling lab)
+=========================================================
+- A bit messy output, some repeats, but definitely able to clean up with regular expressions, and simple find and replace.
+```{r}
+krumhansl.species <- df[38,]
+krumhansl.species
+```
+Plots! In which ocean(s) did most studies occur?
+========================================================
+```{r, fig.wideth=10, fig.height=5}
+library(ggplot2)
+ocean <- ggplot(CHONedatacsv, aes(factor(Ocean)))
+ocean + geom_bar()
+
+```
+- Not easy to discern but it does match the [google analytics barchart](https://docs.google.com/forms/d/1ww045eN0tqW6dUibyGAcZ2ubAKWyV-gXserLhaiZBgk/viewanalytics), Atlantic has the most studies
+- R combines factors though, so more ocean combinations by researcher
+
+An attempt at mapping without any metadata cleaning 
+=========================================================================
+- Lats and longs mixed up
+- Decimal degrees not used, or funny characters inserted
+
+Formal version control - a life saver (in fact, I'm using it now as I write this presentation!)
+========================================
+* __FACT__:Playing around with a large body of other peoples' metadata or data is __SCARY__
+  * What if I sort columns the wrong way, and forget?
+  * What if I write an indexing script that completely screws everything up?
+  * What if I want to invite collaborators to look at the data, and they screw something up, because I forget to enable proper permissions?
+  * What if I can't remember that neat script I wrote last week to make a neat map?
+  * What if in data cleaning, I make a mistake in interpreting a lat or long coordinate as erroneous, when in fact, it isn't an error?
+
+Formal version control
+========================================
+* SOLUTION: version control, with __git__ (local), and private repository on __GitHub__
+  * Other version control solutions exist, e.g. [Subversion] (http://subversion.apache.org/), [bitbucket] (https://bitbucket.org/)
+* A combination of "saving" your work & "tracking changes"
+  * Workflow of git/GitHub (a demonstration - on the next slide)
+
+Git workflow (using reporitory where this presentation is stored)
+=======================================
+1. Create a __repository__ (aka "a folder")
+2. __Initialize__ it (git-init in shell, if working locally)
+3. Do some work, save it, then __COMMIT__ to the changes made
+4. __PUSH__ (send) changes to github (if wanting to store versions online)
+5. Collaborators can __PULL__ (download) repositories or __FORK__ (make new versions) of their own, and all the while - all versions are stored.
+6. __REVERT__ back to another version if one is not suitable.
+
+__OK KATE! MAKE SOME CHANGES BY DELETING THIS BOTTOM PART OF THE SLIDE IT'S A BIT INANE__
+
+
+What to do about CHONe DATAsets?
+=====================================================
+type:section
+* Challenge
+* Solution
+* Pros & Cons of solution
+
+Challenge: publish data to fulfill open data mandate
+=====================================================
+
+Solution: data archival with outside repositories issuing DOIs
+======================================================
+
+Pros & Cons of solution
+=====================================================
+

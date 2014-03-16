@@ -8,6 +8,7 @@ date: March  18, 2014
 
 Talk Outline
 ========================================================
+left:40%
 ![alt text](image.jpeg)
 ***
 - Brief background of CHONe (size, scope, types of data, problems)
@@ -57,6 +58,7 @@ type:section
 
 Challenge: How to get at all this data in a meaningful way?
 =======================================================
+incremental:true
 * __Metadata collection w/ Survey forms__
   * E.g. google (free), survey monkey (free), or custom one with more padded security features
   * Design is user-friendly, but back-end can be scraped automatically with R
@@ -210,19 +212,129 @@ head(species)
 ```
 
 
-Isolating a particular researcher
+Isolating a particular researcher and species
 ========================================================
 
 
 ```r
 lastName <- CHONedatacsv$LastName
+firstName <- CHONedatacsv$FirstName
+df <- data.frame(firstName, lastName, species)
 
-## \n simply indicates separation between taxa
-head(lastName)
+head(df)
 ```
 
 ```
-[1] Lloyd   Daigle  Metaxas Wei     Belley  Robar  
-57 Levels: Agapito Allen Annie Barrell Belley Bradbury Brown ... Wei
+  firstName lastName
+1  Michelle    Lloyd
+2      Remi   Daigle
+3      Anna  Metaxas
+4  Chih-Lin      Wei
+5    Renald   Belley
+6    Ashley    Robar
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           species
+1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Margarites spp. \nCrepidula spp.\nAstyris lunata\nDiaphana minuta\nLittorinimorpha\nArrhoges occidentalis\nIlyanassa spp.\nBittiolum  alternatum\nNudibranchia\nGastropoda\nBivalvia\nBryozoa\nBrachyura\nPolychaeta\nCaridea\nAsteroidea
+2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Strongylocentrotus droebachiensis\nAsterias rubens\nArgopecten irradians\nElectra pilosa\nMembranipora membranacea\nMytilus spp.\nModiolus modiolus\nAnomia simplex\nBivalvia\nMargarites spp.\nAstyris lunata\nDiaphana minuta\nCrepidula spp.\nArrhoges occidentalis\nBittiolum alternatum\nGastropoda\nCancer irroratus\nCrangon septemspinosa\nNeopanopeus sayi\nCarcinus maenas\n
+3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Margarites spp. \nCrepidula spp.\nAstyris lunata\nDiaphana minuta\nLittorinimorpha\nArrhoges occidentalis\nIlyanassa spp.\nBittiolum  alternatum\nNudibranchia\nGastropoda\nBivalvia\nBryozoa\nBrachyura\nPolychaeta\nCaridea\nAsteroidea
+4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       >1000 taxa
+5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Not available at the moment (the list will be very long)
+6 Aricidea nolani\nAricidea quadrilobata\nParaonidae spp A\nAricidea (Allia) sp A\nAricidea sp A\nParaonidae spp B\nLevinsenia sp A\nParaonidae spp C\nParaonidae spp D\nCossura longocirrata\nParamphinome jeffreysii\nSternaspis scutata\nNephtys incisa\nAglaophamus circinata\nPseudoscalibregma parvum\nLipobranchius sp A\nScalibregma inflatum\nScalibregmatidae spp A\nAmpharete finmarchica\nAmpharetidae spp A\nAmpharetidae spp B\nAuchenoplax crinita\nAmpharete sp A\nAmage auricula\nAnobothrus gracilis\nArtacama proboscidea\nStreblosoma sp A\nPista sp A\nLysilla loveni\nTerebellidae spp A\nStreblosoma sp B\nStreblosoma sp C\nPolycirrinae spp A\nLeaena sp\nAmphitrite sp A\nPolycirrus sp A\nTerebellides stroemii\nTrichobranchus gracialis\nTrichobranchidae spp A\nCapitellidae spp A\nCapitellidae spp B\nCapitellidae spp C\nCapitellidae spp D\nCapitellidae spp E\nCapitellidae spp F\nCapitellidae spp G\nCapitellidae spp H\nCapitellidae spp I\nCapitellidae spp J\nAncistrosyllis groenlandica\nPilargidae spp A\nSabellidae spp A\nJasmineria sp A\nEuchone incolor\nSabellidae spp B\nSabellidae spp C\nEuchone sp A\nScoloplos sp A\nDorvilleidae spp A\nMeiodorvillea minuta\nProtodorvillea sp A\nDorvilleidae spp B\nAberranta sp A\nSphaerodoropsis sp A\nSphaerodorium sp A\nSphaerodoridium sp A\nSphaerodoropsis sp B\nSphaerodoridae spp A\nSphaerodoropsis longipalpa\nChaetozone anasimus\nAphelochaeta sp A\nTharyx sp A\nCirratulidae spp A\nTharyx sp B\nMonticellina sp A\nCirratulidae spp B\nGlycera sp A\nGlycera sp B\nStreptosyllis sp A\nExogone (Exogone) verugera\nProsphaerosyllis sp A\nSyllidae spp A\nAphroditidae spp A\nLumbrineris sp A\nLumbrineris sp B\nLumbrineris sp C\nLumbrineris sp D\nLumbrineris sp E\nLumbrineris fragilis\nLumbrineris sp F\nNinoë sp A\nMaldanidae spp A\nMaldanidae spp B\nMaldanidae spp C\nMaldanidae spp D\nMaldanidae spp E\nMaldanidae spp F\nMaldanidae spp G\nMaldanidae spp H\nMaldanidae spp I\nMaldanidae spp J\nMaldanidae spp K\nMaldanidae spp L\nMaldanidae spp M\nMaldanidae spp N\nPrionospio sp A\nSpiophanes kroyeri\nSpiophanes sp A\nSpionidae spp A\nBrada villosa\nBrada inhabilis\nDiplocirrus longisetosus\nNereimyra sp A\nHesionidae spp A\nEunoe sp A\nAntinoella sp A\nPholoe sp A\nPholoe sp B\nMetaxypsamma sp A\nCeratocephale sp A\nNereididae spp A\nCeratocephale loveni\nNereididae spp B\nPhyllodoce sp A\nPhyllodoce sp B\nPhyllodocidae spp A\nPhyllodocidae spp B\nApistobranchus sp A\nOphelina sp A\nDysponetus pygmaeus\nGalathowenia sp A\nGalathowenia sp B\nUncispionidae spp A\nTrochochaeta sp A\nSerpulidae spp A
 ```
+
+
+
+Pull out Rénald Belley, PhD student (Snelgrove lab)
+=========================================================
+
+```r
+df[5,]
+```
+
+```
+  firstName lastName
+5    Renald   Belley
+                                                   species
+5 Not available at the moment (the list will be very long)
+```
+
+- We get Rénald's actual remarks, pretty cool!
+
+Pull out Kira Krumhansl, PhD graduate (Scheibling lab)
+=========================================================
+- A bit messy output, some repeats, but definitely able to clean up with regular expressions, and simple find and replace.
+
+```r
+krumhansl.species <- df[38,]
+krumhansl.species
+```
+
+```
+   firstName  lastName
+38      Kira Krumhansl
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         species
+38 1. Saccharina latissima, Laminaria digitata, Lacuna vincta, Membranipora membranacea\n2. Lacuna vincta, Saccharina latissima, Membranipora membranacea\n3. Saccharina latissima, Laminaria digitata, Laminaria solidungula, Macrocystis integrifolia, Macrocystis pyrifera, Lessonia nigrescens, Lessonia trabeculata, Ecklonia maxima, Ecklonia radiata, Undaria pinnatifida, Ecklonia cava\n4. Saccharina latissima, Codium fragile\n5. Strongylocentrotus droebachiensis, Laminaria digitata, Saccharina latissima, Agarum cribosum, Alaria esculenta, Desmarestia aculeata, Desmarestia virdis, Bonnemasonia hamifera, Palmaria palmata\n6. Saccharina latissima, Laminaria digitata, Laminaria complanata, Membranipora membranacea, and Lacuna vincta\n7. Saccharina latissima, Laminaria digitata, Lacuna vincta, Membranipora membranacea\n8. Lacuna vincta, Laminaria digitata, Saccharina latissima
+```
+
+Plots! In which ocean(s) did most studies occur?
+========================================================
+
+```r
+library(ggplot2)
+ocean <- ggplot(CHONedatacsv, aes(factor(Ocean)))
+ocean + geom_bar()
+```
+
+![plot of chunk unnamed-chunk-7](DFO_tools-figure/unnamed-chunk-7.png) 
+
+- Not easy to discern but it does match the [google analytics barchart](https://docs.google.com/forms/d/1ww045eN0tqW6dUibyGAcZ2ubAKWyV-gXserLhaiZBgk/viewanalytics), Atlantic has the most studies
+- R combines factors though, so more ocean combinations by researcher
+
+An attempt at mapping without any metadata cleaning 
+=========================================================================
+- Lats and longs mixed up
+- Decimal degrees not used, or funny characters inserted
+
+Formal version control - a life saver (in fact, I'm using it now as I write this presentation!)
+========================================
+* __FACT__:Playing around with a large body of other peoples' metadata or data is __SCARY__
+  * What if I sort columns the wrong way, and forget?
+  * What if I write an indexing script that completely screws everything up?
+  * What if I want to invite collaborators to look at the data, and they screw something up, because I forget to enable proper permissions?
+  * What if I can't remember that neat script I wrote last week to make a neat map?
+  * What if in data cleaning, I make a mistake in interpreting a lat or long coordinate as erroneous, when in fact, it isn't an error?
+
+Formal version control
+========================================
+* SOLUTION: version control, with __git__ (local), and private repository on __GitHub__
+  * Other version control solutions exist, e.g. [Subversion] (http://subversion.apache.org/), [bitbucket] (https://bitbucket.org/)
+* A combination of "saving" your work & "tracking changes"
+  * Workflow of git/GitHub (a demonstration - on the next slide)
+
+Git workflow (using reporitory where this presentation is stored)
+=======================================
+1. Create a __repository__ (aka "a folder")
+2. __Initialize__ it (git-init in shell, if working locally)
+3. Do some work, save it, then __COMMIT__ to the changes made
+4. __PUSH__ (send) changes to github (if wanting to store versions online)
+5. Collaborators can __PULL__ (download) repositories or __FORK__ (make new versions) of their own, and all the while - all versions are stored.
+6. __REVERT__ back to another version if one is not suitable.
+
+__OK KATE! MAKE SOME CHANGES BY DELETING THIS BOTTOM PART OF THE SLIDE IT'S A BIT INANE__
+
+
+What to do about CHONe DATAsets?
+=====================================================
+type:section
+* Challenge
+* Solution
+* Pros & Cons of solution
+
+Challenge: publish data to fulfill open data mandate
+=====================================================
+
+Solution: data archival with outside repositories issuing DOIs
+======================================================
+
+Pros & Cons of solution
+=====================================================
 
