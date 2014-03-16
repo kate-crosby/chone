@@ -321,6 +321,12 @@ Git workflow (using reporitory where this presentation is stored)
 
 __OK KATE! MAKE SOME CHANGES BY DELETING THIS BOTTOM PART OF THE SLIDE IT'S A BIT INANE__
 
+Help for getting started with Git and Github in Rstudio
+===================================================
+* General guide [git and github] (http://guides.github.com/overviews/flow/)
+
+* Git and Github in Rstudio
+  * Great explanation from [Molecular Ecologist] (http://www.molecularecologist.com/2013/11/using-github-with-r-and-rstudio/) blog
 
 What to do about CHONe DATAsets?
 =====================================================
