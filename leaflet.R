@@ -19,7 +19,7 @@ library(leafletR)
 
 map <- Leaflet$new()
 map$setView(c(45.78300, -61.77770), zoom = 3)
-map$tileLayer(provider = 'Stamen.Watercolor')
+map$tileLayer(provider = 'OpenStreetMap')
 map$marker(
   c(44.47696, -64.03141),
   bindPopup = 'Investigator = Kira Krumhansl, Species number = 22, Species =  Agarum cribosum, Alaria esculenta, Bonnemasonia hamifera, Codium fragile, Desmarestia aculeata, Desmarestia virdis, Ecklonia cava, Ecklonia maxima, Ecklonia radiata, Lacuna vincta, Laminaria complanata, Laminaria digitata, Laminaria solidungula, Lessonia nigrescens, Lessonia trabeculata, Macrocystis integrifolia, Macrocystis pyrifera, Membranipora membranacea, Palmaria palmata, Saccharina latissima, Strongylocentrotus droebachiensis, Undaria pinnatifida'

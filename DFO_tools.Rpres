@@ -3,7 +3,7 @@ CHONe (Canadian Healthy Oceans Network):  Notes from CHONe's Data Management Und
 author: Kate Crosby, Michelle Lloyd, and Peter Lawton
 font-import: http://fonts.googleapis.com/css?family=Lato
 font-family: 'Lato'
-date: March  18, 2014  
+date: March  19, 2014  
 
 
 Talk Outline
@@ -208,8 +208,6 @@ Git workflow (using reporitory where this presentation is stored)
 4. __PUSH__ (send) changes to github (if wanting to store versions online)
 5. Collaborators can __PULL__ (download) repositories containing new or old versions or __FORK__ (make new versions) of their own, and all the while - all versions are stored.
 6. __REVERT__ back to another version if one is not suitable.
-
-__OK KATE! MAKE SOME CHANGES BY DELETING THIS BOTTOM PART OF THE SLIDE IT'S A BIT INANE__
 
 Help for getting started with Git and Github in Rstudio
 ===================================================
