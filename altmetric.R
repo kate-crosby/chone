@@ -18,6 +18,10 @@ plot(mora)
 
 altmetric_data(mora)
 
+worm2006 <- altmetrics(doi = '10.1126/science.1132294')
+worm2006
+plot(worm2006)
+
 archam<-altmetrics(doi='10.1371/journal.pone.0012182')
 archam
 
