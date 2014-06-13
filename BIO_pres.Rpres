@@ -1,0 +1,298 @@
+CHONe (Canadian Healthy Oceans Network):  Notes from CHONe's Data Management Underground
+========================================================
+author: Kate Crosby, Michelle Lloyd, and Peter Lawton
+font-import: http://fonts.googleapis.com/css?family=Lato
+font-family: 'Lato'
+date: June 13, 2014  
+
+
+Talk Outline
+========================================================
+left:40%
+![alt text](image.jpeg)
+***
+- Brief background of CHONe (size, scope, types of data, problems)
+- Handy tools for metadata collection
+- A brief discussion on version control
+- Handy tools for making data public
+- Measuring impacts of making data public
+
+
+The size and scope of data within CHONe
+========================================================
+type: section
+incremental: true
+
+- 60 researchers from institutions across Canada 
+
+- Positions range from Gov't scientists, to undergraduate students 
+
+- Each with 1 - 4 active research projects depending on position 
+
+- Dates of projects range from 2007 - 2013, but some continue on...
+
+Is making a database with a common schema possible? What are the data?
+========================================================
+
+Common schema(s) = e.g. BOLD (Barcode of Life Data systems), NCBI (Genbank), OTN (Ocean Tracking network).
+
+Long answer is: yes possibly, we could introduce __many, many, different schemas__
+
+Short answer is: __NO__
+
+Why is this not easily possible?
+
+CHONe's data & datatypes are vast like the 3 oceans they span 
+=======================================================
+incremental: true
+- Much diversity, with some overlap, but no one (or a few) common schema
+- Making a useful table (like with MS-Access) with a fasta file and CTD data would be __impossible__ or __meaningless__
+![alt text](wordle.png)
+
+
+What data or metadata would be useful for DFO, the public, and CHONe?
+=======================================================
+type:section
+* __Broad GPS coordinates for mapping purposes__
+* __Species under study__
+* __Time period of study__
+* __Titles of publications relating to study__
+
+Challenge: How to get at all this data in a meaningful way?
+=======================================================
+* __Metadata collection w/ Survey forms__
+  * E.g. google (free), survey monkey (free), or custom one with more padded security features
+  * Design is user-friendly, but back-end can be scraped automatically with R
+  * With Google forms, you can enable basic permissions to the __"right"__ user levels
+
+* __Google__ __form__ __used:__
+  * [CHONe metadata collection] (https://docs.google.com/forms/d/1zkTYqeax_w1d-VnE6oojfA2w4ed6x4APtwFfb9wonhI/viewform)
+
+Google Form
+=====================================================
+![alt text](survey.png)
+
+METADATA MANIPULATION
+======================================================
+type:section
+* View quick analytics in google 
+* Import to R (RStudio - Nice IDE)
+* Implement version control to easily track changes and versions
+  * Git (local), and github (online repository)
+
+Results of survey form 
+======================================================
+* Results from the form are stored as a spreadsheet
+  * [Familiar file type] (https://docs.google.com/spreadsheet/ccc?key=0AmsZcgcljAoodGhHaExkZlU1dHhtUkpnb0UtOEJ4THc&usp=drive_web#gid=0)
+  * [Summary display] (https://docs.google.com/forms/d/1ww045eN0tqW6dUibyGAcZ2ubAKWyV-gXserLhaiZBgk/viewanalytics)
+* Easy to import the data into R, for manipulation
+
+```{r}
+library(mosaic)
+
+CHONedataweb<- fetchGoogle("https://docs.google.com/spreadsheet/ccc?key=0AmsZcgcljAoodGhHaExkZlU1dHhtUkpnb0UtOEJ4THc&usp=drive_web#gid=0")
+
+CHONedatacsv <- fetchGoogle("https://docs.google.com/spreadsheet/pub?key=0AmsZcgcljAoodGhHaExkZlU1dHhtUkpnb0UtOEJ4THc&single=true&gid=0&output=csv")
+
+
+```
+
+Output of XML and CSV, respectively
+========================================================
+
+```{r,echo=FALSE}
+str(CHONedataweb)
+
+head(CHONedatacsv)
+
+```
+
+Moving forward with the csv look at Species/Taxa lists
+========================================================
+
+```{r}
+species <- CHONedatacsv$SpeciesTaxa
+
+## \n simply indicates separation between taxa
+head(species)
+```
+
+Isolating a particular researcher and species
+========================================================
+
+```{r}
+lastName <- CHONedatacsv$LastName
+firstName <- CHONedatacsv$FirstName
+df <- data.frame(firstName, lastName, species)
+
+head(df)
+```
+
+
+Pull out Rénald Belley, PhD student (Snelgrove lab)
+=========================================================
+```{r}
+df[5,]
+```
+- We get Rénald's actual remarks to us, pretty cool!
+
+Pull out Kira Krumhansl, PhD graduate (Scheibling lab)
+=========================================================
+- A bit messy output, some repeats, but definitely able to clean up with regular expressions, and simple find and replace.
+```{r}
+krumhansl.species <- df[38,]
+krumhansl.species
+```
+Plots! In which ocean(s) did most studies occur?
+========================================================
+- Not easy to discern but it does match the [google analytics barchart](https://docs.google.com/forms/d/1ww045eN0tqW6dUibyGAcZ2ubAKWyV-gXserLhaiZBgk/viewanalytics), Atlantic has the most studies
+- R combines factors ocean combinations by researcher
+```{r, fig.wideth=10, fig.height=5, echo=FALSE}
+library(ggplot2)
+ocean <- ggplot(CHONedatacsv, aes(factor(Ocean)))
+ocean + geom_bar()
+
+```
+
+
+Make a dataframe for mapping without any metadata cleaning 
+=========================================================================
+- Lats and longs mixed up
+- Decimal degrees not used, or funny characters inserted
+```{r}
+MinLat <- CHONedatacsv$MinLat
+MinLong <- CHONedatacsv$MinLong
+
+gps.df <- data.frame(MinLat, MinLong)
+
+head(gps.df)
+
+```
+
+
+Mapping a subset of "clean" metadata with leaflet
+============================================================
+```{r fig.width = 5, echo=FALSE}
+require(devtools)
+library(rCharts)
+library(rMaps)
+library(leafletR)
+
+```
+![alt text](leaflet.png)
+
+Leaflet R is a javascript mapping applet
+
+
+VERSION CONTROL
+=======================================
+type:section
+
+Using git & github (not necessarily social coding)
+
+![alt text](github.png)
+
+Formal version control - a life saver (in fact, I'm using it now as I write this presentation!)
+========================================
+* __FACT__:Playing around with a large body of other peoples' metadata or data is __SCARY__
+  <small>* What if I sort columns the wrong way, and forget?
+  * What if I write an indexing script that completely screws everything up?
+  * What if I want to invite collaborators to look at the data, and they screw something up, because I forget to enable proper permissions?
+  * What if I can't remember that neat script I wrote last week to make a neat map?
+  * What if in data cleaning, I make a mistake in interpreting a lat or long coordinate as erroneous, when in fact, it isn't an error?</small>
+
+Formal version control
+========================================
+* SOLUTION: version control, with __git__ (local), and private repository on __GitHub__
+  * Other version control solutions exist, e.g. [Subversion] (http://subversion.apache.org/), [bitbucket] (https://bitbucket.org/)
+* A combination of "saving" your work & "tracking changes"
+  * Workflow of git/GitHub (a demonstration - on the next slide)
+
+Git workflow (using reporitory where this presentation is stored)
+=======================================
+1. Create a __repository__ (aka "a folder")
+2. __Initialize__ it (git-init in shell, if working locally)
+3. Do some work, save it, then __COMMIT__ to the changes made
+4. __PUSH__ (send) changes to github (if wanting to store versions online)
+5. Collaborators can __PULL__ (download) repositories containing new or old versions or __FORK__ (make new versions) of their own, and all the while - all versions are stored.
+6. __REVERT__ back to another version if one is not suitable.
+
+Help for getting started with Git and Github in Rstudio
+===================================================
+* General guide [git and github] (http://guides.github.com/overviews/flow/)
+
+* Git and Github in Rstudio
+  * Great explanation from [Molecular Ecologist] (http://www.molecularecologist.com/2013/11/using-github-with-r-and-rstudio/) blog
+
+* Overall, I just think Git & Github are great tools for workflow
+  * Does not hurt that I get five private repos __FREE__ (student)
+
+What to do about CHONe DATAsets?
+=====================================================
+type:section
+* Challenge
+* Solution
+* Pros & Cons of solution
+
+* __Check out CHONe datasets (link) __:__
+  * [CHONe data packages] (http://chone.marinebiodiversity.ca/data/data-packages)
+
+
+CHONe Open DATAsets (47 and counting)
+======================================================
+![alt text](CHONeData.png)
+
+Challenge: publish data to fulfill open data mandate
+=====================================================
+
+* Q: CHONe's data is diverse - where do you warehouse it?
+
+* A: __Public archives with their own infrastructure__
+***
+![alt text](DryadLogo.png)
+![alt text](FigShare.png)
+
+
+Data archival with outside repositories issuing DOIs
+======================================================
+[CHONe Dryad examples] (http://datadryad.org/discover?query=Canadian+Healthy+Oceans&submit=Go)
+
+[CHONe Figshare example - due to external agreement with PLoS] (http://figshare.com/articles/_Are_Hotspots_Always_Hotspots_The_Relationship_between_Diversity_Resource_and_Ecosystem_Functions_in_the_Arctic_/796278)
+
+PROS & Cons of Public Data Archival
+=====================================================
+* All datasets issued a permanent DOI
+* Curation even when the network has ended
+* Minimizes data loss
+* Filetypes updated regularly as computing technology advances
+* Very cheap (free for FigShare), $70 a package for Data Dryad
+* Credit for all your research! Citation of both data package/ data set and publication
+* A tendency to reach a wider audience with data that is public, and papers that are open access (we can actually measure this)
+
+
+PROS & Cons of Public Data Archival
+=====================================================
+* Dryad and Figshare both have APIs (application programming interfaces)
+* Metadata and data can be easily accessed, for further analyses
+* No formal structure on the data (like MS-access), the user decides the structure and the question
+* Example script 'rdryad'
+
+Pros & CONS of Public Data Archival
+=====================================================
+* Many researchers reluctant to upload data even after publication
+  * Long term datasets (can be embargoed, but only for a year-long period in some repos)
+  * May write many publications, with one long-term dataset
+
+Pros & CONS of Public Data Archival
+============================================================
+* Who owns the raw data vs. processed data?
+  * CHONe PIs and scientists have many collaborators - open data is not always possible or allowed to be made public (e.g. certain multi-beam surveys) for collaborators.
+  * The more money data costs, the more likely other collaborators involved who want to use the data before its made public
+  * Grants depend on keeping data private
+
+THE END!
+===========================
+type:section
+Questions? Comments?
+
+Acknowledgments: All CHONe researchers, CHONe staff, Dalhousie University, Memorial University, DFO, NSERC, Province of Newfoundland & Labrador

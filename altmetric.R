@@ -32,6 +32,8 @@ altmetric_data(archam)
 lacharite<-altmetrics(doi='10.1371/journal.pone.0065394')
 lacharite 
 
+altmetric_data(lacharite)
+
 plot(lacharite)
 
 lacharite1<-altmetrics(doi='10.5061/dryad.30kt0')
@@ -49,6 +51,8 @@ plot(barrell)
 krumhansl<-altmetrics(doi='10.1890/13-0228.1')
 krumhansl
 plot(krumhansl)
+
+altmetric_data(krumhansl)
 
 lloyd<-altmetrics(doi='10.5061/dryad.9js2m')
 lloyd
