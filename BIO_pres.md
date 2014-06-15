@@ -414,7 +414,7 @@ PROS & Cons of Public Data Archival
 * Dryad and Figshare both have APIs (application programming interfaces)
 * Metadata and data can be easily accessed, for further analyses
 * No formal structure on the data (like MS-access), the user decides the structure and the question
-* Example script 'rdryad'
+
 
 Pros & CONS of Public Data Archival
 =====================================================
@@ -428,6 +428,28 @@ Pros & CONS of Public Data Archival
   * CHONe PIs and scientists have many collaborators - open data is not always possible or allowed to be made public (e.g. certain multi-beam surveys) for collaborators.
   * The more money data costs, the more likely other collaborators involved who want to use the data before its made public
   * Grants depend on keeping data private
+
+HOW IMPORTANT IS OPEN DATA? 
+========================================================
+type: section
+* __Can we "measure" impacts?__
+* __What tools for metrics?__
+
+Measuring the impacts of CHONe publications (articles & reviews)
+=========================================================================
+Using Altmetrics, we can get at the impact of articles
+![plot of chunk unnamed-chunk-10](BIO_pres-figure/unnamed-chunk-10.png) 
+
+
+
+Measuring the impacts of CHONe open access paper
+=========================================================================
+![plot of chunk unnamed-chunk-11](BIO_pres-figure/unnamed-chunk-11.png) 
+
+Measuring the impacts of CHONe open data packages
+=========================================================================
+![plot of chunk unnamed-chunk-12](BIO_pres-figure/unnamed-chunk-12.png) 
+
 
 THE END!
 ===========================
